@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karasuno High Volleyball Club — Character Stats & Questionnaire</title>
+  <style>
+    :root {
+      --bg-black: #0b0b0d;
+      --bg-elevated: #141418;
+      --bg-card: #1b1b21;
+      --bg-card-hover: #23232b;
+      --orange: #ff6a00;
+      --orange-bright: #ff852e;
+      --orange-dim: rgba(255, 106, 0, 0.16);
+      --orange-glow: rgba(255, 106, 0, 0.4);
+      --white: #f7f7f9;
+      --muted: #a6a6b3;
+      --border: rgba(255, 255, 255, 0.1);
+      --success: #22c55e;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-black);
+      color: var(--white);
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    /* Animated Flag / Banner Strip */
+    .flag-header {
+      position: relative;
+      background:
+        linear-gradient(135deg, rgba(11, 11, 13, 0.94) 0%, rgba(20, 20, 24, 0.88) 55%, rgba(255, 106, 0, 0.22) 100%),
+        repeating-linear-gradient(
+          -45deg,
+          rgba(255, 106, 0, 0.06) 0px,
+          rgba(255, 106, 0, 0.06) 14px,
+          transparent 14px,
+          transparent 28px
+        );
+      border-bottom: 3px solid var(--orange);
+      padding: 2.2rem 1.5rem 2.8rem;
+      overflow: hidden;
+    }
+
+    .banner-ribbon {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: #000000;
+      color: var(--white);
+      border: 2px solid var(--orange);
+      padding: 0.4rem 1rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      box-shadow: 0 0 20px var(--orange-dim);
+      animation: floatBanner 3.2s ease-in-out infinite;
+    }
+
+    .banner-ribbon span.kanji {
+      color: var(--orange);
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    @keyframes floatBanner {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 2rem;
+      align-items: center;
+      margin-top: 1.4rem;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+
+    h1 .accent {
+      color: var(--orange);
+      display: block;
+    }
+
+    .hero-sub {
+      color: var(--muted);
+      margin-top: 0.9rem;
+      max-width: 58ch;
+      font-size: 1rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-top: 1.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.72rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.18s ease, background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      text-decoration: none;
+      color: var(--white);
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #0b0b0d;
+      box-shadow: 0 6px 20px var(--orange-glow);
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-bright);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--border);
+    }
+
+    .btn-ghost:hover,
+    .btn-ghost.active {
+      border-color: var(--orange);
+      background: var(--orange-dim);
+      color: var(--orange-bright);
+    }
+
+    /* Flag Visual Card */
+    .flag-card {
+      background: #09090b;
+      border: 2px solid var(--orange);
+      border-radius: 14px;
+      padding: 1.4rem;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65), inset 0 0 30px rgba(255, 106, 0, 0.08);
+      position: relative;
+    }
+
+    .flag-cloth {
+      background: #050506;
+      border: 1px solid rgba(255, 106, 0, 0.45);
+      border-radius: 8px;
+      padding: 1.6rem 1.2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .flag-cloth::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 106, 0, 0.14), transparent);
+      transform: translateX(-100%);
+      animation: flagSweep 3.8s ease-in-out infinite;
+    }
+
+    @keyframes flagSweep {
+      0%, 60% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .flag-word {
+      font-size: 2.3rem;
+      font-weight: 900;
+      letter-spacing: 0.28em;
+      color: var(--white);
+      text-shadow: 0 0 18px rgba(255, 106, 0, 0.55);
+    }
+
+    .flag-kanji {
+      margin-top: 0.35rem;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--orange);
+      letter-spacing: 0.2em;
+    }
+
+    .flag-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 0.75rem;
+    }
+
+    /* Sticky Nav */
+    nav.top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(11, 11, 13, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+    }
+
+    .nav-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      padding: 0.45rem 0.85rem;
+      border-radius: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--white);
+      background: var(--orange-dim);
+    }
+
+    main {
+      padding: 2.4rem 1.5rem 4rem;
+    }
+
+    section {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 2px solid rgba(255, 106, 0, 0.35);
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-size: 1.65rem;
+      font-weight: 800;
+    }
+
+    .section-title .num {
+      color: var(--orange);
+      margin-right: 0.45rem;
+    }
+
+    .section-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* Filter & Sort Controls */
+    .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .chip {
+      background: var(--bg-card);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.42rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .chip:hover {
+      color: var(--white);
+      border-color: var(--orange);
+    }
+
+    .chip.active {
+      background: var(--orange);
+      color: #0b0b0d;
+      border-color: var(--orange);
+    }
+
+    .sort-box {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    select {
+      background: var(--bg-card);
+      color: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    select:focus {
+      outline: 2px solid var(--orange);
+    }
+
+    /* Character Cards Grid */
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.35rem;
+    }
+
+    .player-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, opacity 0.5s ease;
+    }
+
+    .player-card.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .player-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--orange);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 106, 0, 0.35);
+      background: var(--bg-card-hover);
+    }
+
+    .photo-stage {
+      position: relative;
+      height: 195px;
+      background: linear-gradient(135deg, #121216 0%, #26160b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-bottom: 2px solid rgba(255, 106, 0, 0.35);
+    }
+
+    .photo-stage img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    .photo-fallback {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .jersey-badge {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      background: #000000;
+      color: var(--orange);
+      border: 2px solid var(--orange);
+      font-weight: 900;
+      font-size: 0.95rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      z-index: 2;
+    }
+
+    .ovr-badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: var(--orange);
+      color: #0b0b0d;
+      font-weight: 900;
+      font-size: 0.85rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      z-index: 2;
+    }
+
+    .upload-photo-btn {
+      position: absolute;
+      bottom: 0.65rem;
+      right: 0.65rem;
+      background: rgba(0, 0, 0, 0.78);
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 6px;
+      padding: 0.28rem 0.55rem;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 2;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .upload-photo-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange-bright);
+    }
+
+    .card-body {
+      padding: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      flex: 1;
+    }
+
+    .player-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .player-name {
+      font-size: 1.18rem;
+      font-weight: 800;
+    }
+
+    .player-role {
+      font-size: 0.83rem;
+      color: var(--orange-bright);
+      font-weight: 600;
+    }
+
+    .player-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* Animated Stat Bars */
+    .stats-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.52rem;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: 92px 1fr 34px;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .stat-track {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .stat-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--orange), #ffb066);
+      border-radius: 999px;
+      transition: width 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .stat-val {
+      text-align: right;
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .card-footer {
+      margin-top: auto;
+      padding-top: 0.65rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-sm {
+      padding: 0.42rem 0.78rem;
+      font-size: 0.8rem;
+      border-radius: 6px;
+    }
+
+    /* Comparator Panel */
+    .compare-panel {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.35rem;
+    }
+
+    .compare-selectors {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .compare-table-wrap {
+      overflow-x: auto;
+    }
+
+    table.compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    table.compare-table th,
+    table.compare-table td {
+      padding: 0.7rem 0.85rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    table.compare-table th {
+      color: var(--orange);
+      font-weight: 800;
+      background: rgba(255, 106, 0, 0.07);
+    }
+
+    .leader-pill {
+      display: inline-block;
+      background: var(--orange-dim);
+      color: var(--orange-bright);
+      border: 1px solid rgba(255, 106, 0, 0.4);
+      border-radius: 999px;
+      padding: 0.1rem 0.5rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      margin-left: 0.35rem;
+    }
+
+    /* Questionnaire / Quiz */
+    .quiz-box {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+    }
+
+    .quiz-progress-wrap {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .quiz-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--orange);
+      transition: width 0.35s ease;
+    }
+
+    .question-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .question-prompt {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.65rem;
+    }
+
+    .option-btn {
+      text-align: left;
+      background: var(--bg-elevated);
+      color: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.7rem 0.9rem;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .option-btn:hover {
+      border-color: var(--orange);
+      background: var(--orange-dim);
+    }
+
+    .option-btn.selected {
+      background: var(--orange);
+      color: #0b0b0d;
+      border-color: var(--orange);
+      font-weight: 800;
+    }
+
+    .quiz-result {
+      margin-top: 1.25rem;
+      padding: 1.25rem;
+      border-radius: 12px;
+      background: #101014;
+      border: 2px solid var(--orange);
+      display: none;
+    }
+
+    .quiz-result.visible {
+      display: block;
+      animation: fadeInResult 0.35s ease;
+    }
+
+    @keyframes fadeInResult {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 100;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--bg-card);
+      border: 2px solid var(--orange);
+      border-radius: 14px;
+      max-width: 520px;
+      width: 100%;
+      padding: 1.5rem;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 0.9rem;
+      right: 0.9rem;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.25rem 0.6rem;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .modal-close:hover {
+      color: var(--white);
+      border-color: var(--orange);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer strong {
+      color: var(--orange);
+    }
+
+    @media (max-width: 820px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="flag-header">
+    <div class="container">
+      <div class="banner-ribbon" title="Karasuno High School Volleyball Banner">
+        <span class="kanji">飛べ</span>
+        <span>FLY — KARASUNO VOLLEYBALL CLUB</span>
+      </div>
+
+      <div class="hero-grid">
+        <div>
+          <h1>
+            Karasuno Character
+            <span class="accent">Stats &amp; Court Profiles</span>
+          </h1>
+          <p class="hero-sub">
+            Explore player attributes (Power, Jumping, Stamina, Game Sense, Technique, and Speed),
+            compare lineups side-by-side, and take the Karasuno questionnaire to see which player
+            matches your playstyle or volleyball knowledge.
+          </p>
+          <div class="hero-actions">
+            <a href="#roster" class="btn btn-primary">Explore Player Stats</a>
+            <a href="#compare" class="btn btn-ghost">Compare Players</a>
+            <a href="#questionnaire" class="btn btn-ghost">Take Questionnaire</a>
+          </div>
+        </div>
+
+        <div class="flag-card">
+          <div class="flag-cloth">
+            <div class="flag-word">FLY</div>
+            <div class="flag-kanji">烏野高校 · 排球部</div>
+          </div>
+          <div class="flag-meta">
+            <span>Palette: <strong>Black &amp; Orange</strong></span>
+            <span>Miyagi Prefecture</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="top-nav" aria-label="Primary Navigation">
+    <div class="nav-inner">
+      <strong style="color: var(--orange); letter-spacing: 0.08em;">KARASUNO // STATS HUB</strong>
+      <div class="nav-links">
+        <a class="nav-link" href="#roster">Roster &amp; Stats</a>
+        <a class="nav-link" href="#compare">Head-to-Head</a>
+        <a class="nav-link" href="#questionnaire">Questionnaire</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- SECTION 1: CHARACTER STATS -->
+    <section id="roster">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title"><span class="num">01</span>Player Attributes &amp; Photos</h2>
+          <p class="section-note">Filter by position, sort by stat totals, or click "Upload Photo" on any card to attach your own image.</p>
+        </div>
+        <button id="replayBarsBtn" class="btn btn-ghost btn-sm" type="button">Replay Stat Animations</button>
+      </div>
+
+      <div class="controls-bar">
+        <div class="filter-group" role="group" aria-label="Filter by position">
+          <button class="chip active" data-filter="All" type="button">All Players</button>
+          <button class="chip" data-filter="Setter" type="button">Setter</button>
+          <button class="chip" data-filter="Middle Blocker" type="button">Middle Blocker</button>
+          <button class="chip" data-filter="Wing Spiker" type="button">Wing Spiker</button>
+          <button class="chip" data-filter="Libero" type="button">Libero</button>
+        </div>
+
+        <div class="sort-box">
+          <label for="sortSelect">Sort by:</label>
+          <select id="sortSelect">
+            <option value="total">Total Rating (High to Low)</option>
+            <option value="jumping">Jumping</option>
+            <option value="power">Power</option>
+            <option value="speed">Speed</option>
+            <option value="gameSense">Game Sense</option>
+            <option value="technique">Technique</option>
+            <option value="stamina">Stamina</option>
+            <option value="number">Jersey Number</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="rosterGrid" class="roster-grid"></div>
+      <input type="file" id="photoFileInput" accept="image/*" hidden />
+    </section>
+
+    <!-- SECTION 2: COMPARATOR -->
+    <section id="compare">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title"><span class="num">02</span>Head-to-Head Stat Comparator</h2>
+          <p class="section-note">Select two Karasuno players to compare every parameter side-by-side.</p>
+        </div>
+      </div>
+
+      <div class="compare-panel">
+        <div class="compare-selectors">
+          <div>
+            <label for="compareA" style="display:block; margin-bottom:0.35rem; color:var(--muted); font-size:0.85rem;">Player A</label>
+            <select id="compareA" style="width:100%;"></select>
+          </div>
+          <div>
+            <label for="compareB" style="display:block; margin-bottom:0.35rem; color:var(--muted); font-size:0.85rem;">Player B</label>
+            <select id="compareB" style="width:100%;"></select>
+          </div>
+        </div>
+
+        <div class="compare-table-wrap">
+          <table class="compare-table" id="compareTable"></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: QUESTIONNAIRE -->
+    <section id="questionnaire">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title"><span class="num">03</span>Karasuno Questionnaire</h2>
+          <p class="section-note">Answer 5 questions about playstyle and Karasuno trivia to get your player match &amp; score.</p>
+        </div>
+        <button id="resetQuizBtn" class="btn btn-ghost btn-sm" type="button">Reset Answers</button>
+      </div>
+
+      <div class="quiz-box">
+        <div class="quiz-progress-wrap">
+          <div class="quiz-progress-bar" id="quizProgress"></div>
+        </div>
+
+        <div id="quizQuestions"></div>
+
+        <div style="margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <button id="submitQuizBtn" class="btn btn-primary" type="button">Submit Questionnaire</button>
+        </div>
+
+        <div id="quizResult" class="quiz-result" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Detail Modal -->
+  <div id="detailModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <button id="closeModalBtn" class="modal-close" type="button" aria-label="Close modal">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <footer>
+    Built with HTML, CSS &amp; JavaScript · Inspired by <strong>Karasuno High ("FLY")</strong> · Fan Stats Reference
+  </footer>
+
+  <script>
+    // Character data (1-5 parameter scale + total score)
+    const players = [
+      {
+        id: "kageyama",
+        name: "Tobio Kageyama",
+        number: 9,
+        year: "1st Year",
+        position: "Setter",
+        height: "181.9 cm",
+        roleNote: "Pinpoint tosses, court vision & all-around dominance",
+        photo: "images/kageyama.jpg",
+        stats: { power: 4, jumping: 4, stamina: 5, gameSense: 5, technique: 5, speed: 4 },
+        quote: "If there's going to be a wall in front of me, I'll just keep jumping until I get over it."
+      },
+      {
+        id: "nishinoya",
+        name: "Yu Nishinoya",
+        number: 4,
+        year: "2nd Year",
+        position: "Libero",
+        height: "160.5 cm",
+        roleNote: "Karasuno's guardian deity & fearless floor defender",
+        photo: "images/nishinoya.jpg",
+        stats: { power: 2, jumping: 4, stamina: 5, gameSense: 4, technique: 3, speed: 5 },
+        quote: "I am a libero! I don't need points to be the coolest guy on the court!"
+      },
+      {
+        id: "daichi",
+        name: "Daichi Sawamura",
+        number: 1,
+        year: "3rd Year",
+        position: "Wing Spiker",
+        height: "176.8 cm",
+        roleNote: "Steady captain anchoring defense and receives",
+        photo: "images/daichi.jpg",
+        stats: { power: 4, jumping: 3, stamina: 3, gameSense: 4, technique: 4, speed: 3 },
+        quote: "Don't let the ball drop!"
+      },
+      {
+        id: "asahi",
+        name: "Asahi Azumane",
+        number: 3,
+        year: "3rd Year",
+        position: "Wing Spiker",
+        height: "186.4 cm",
+        roleNote: "Heavy-hitting ace breaking through tight blocks",
+        photo: "images/asahi.jpg",
+        stats: { power: 5, jumping: 3, stamina: 3, gameSense: 3, technique: 3, speed: 2 },
+        quote: "Even if I'm blocked once, I'm going to keep swinging."
+      },
+      {
+        id: "tsukishima",
+        name: "Kei Tsukishima",
+        number: 11,
+        year: "1st Year",
+        position: "Middle Blocker",
+        height: "190.1 cm",
+        roleNote: "Tallest blocker using calm reading & timing",
+        photo: "images/tsukishima.jpg",
+        stats: { power: 2, jumping: 3, stamina: 3, gameSense: 5, technique: 3, speed: 3 },
+        quote: "It's just club volleyball."
+      },
+      {
+        id: "hinata",
+        name: "Shoyo Hinata",
+        number: 10,
+        year: "1st Year",
+        position: "Middle Blocker",
+        height: "164.2 cm",
+        roleNote: "Explosive vertical leap, relentless stamina & speed",
+        photo: "images/hinata.jpg",
+        stats: { power: 1, jumping: 5, stamina: 5, gameSense: 1, technique: 1, speed: 5 },
+        quote: "As long as I'm here, you're invincible!"
+      },
+      {
+        id: "tanaka",
+        name: "Ryunosuke Tanaka",
+        number: 5,
+        year: "2nd Year",
+        position: "Wing Spiker",
+        height: "178.2 cm",
+        roleNote: "High-energy spiker who thrives under pressure",
+        photo: "images/tanaka.jpg",
+        stats: { power: 5, jumping: 3, stamina: 4, gameSense: 1, technique: 2, speed: 3 },
+        quote: "Look at me when you're talking!"
+      },
+      {
+        id: "sugawara",
+        name: "Koshi Sugawara",
+        number: 2,
+        year: "3rd Year",
+        position: "Setter",
+        height: "174.6 cm",
+        roleNote: "Tactical vice-captain & dependable game organizer",
+        photo: "images/sugawara.jpg",
+        stats: { power: 2, jumping: 2, stamina: 2, gameSense: 4, technique: 4, speed: 2 },
+        quote: "Even if it's not a flashy play, I'll send the ball where it needs to go."
+      }
+    ];
+
+    const statLabels = [
+      { key: "power", label: "Power" },
+      { key: "jumping", label: "Jumping" },
+      { key: "stamina", label: "Stamina" },
+      { key: "gameSense", label: "Game Sense" },
+      { key: "technique", label: "Technique" },
+      { key: "speed", label: "Speed" }
+    ];
+
+    const getTotal = (p) => Object.values(p.stats).reduce((sum, v) => sum + v, 0);
+
+    let activeFilter = "All";
+    let activeSort = "total";
+    let pendingUploadId = null;
+
+    const rosterGrid = document.getElementById("rosterGrid");
+    const photoFileInput = document.getElementById("photoFileInput");
+
+    function getSortedFilteredPlayers() {
+      return players
+        .filter((p) => activeFilter === "All" || p.position === activeFilter)
+        .sort((a, b) => {
+          if (activeSort === "total") return getTotal(b) - getTotal(a);
+          if (activeSort === "number") return a.number - b.number;
+          return b.stats[activeSort] - a.stats[activeSort];
+        });
+    }
+
+    function animateBars() {
+      requestAnimationFrame(() => {
+        document.querySelectorAll(".stat-fill").forEach((bar) => {
+          const target = bar.getAttribute("data-target");
+          bar.style.width = "0%";
+          requestAnimationFrame(() => {
+            bar.style.width = target + "%";
+          });
+        });
+      });
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+            entry.target.querySelectorAll(".stat-fill").forEach((bar) => {
+              bar.style.width = bar.getAttribute("data-target") + "%";
+            });
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    function renderRoster() {
+      const list = getSortedFilteredPlayers();
+      rosterGrid.innerHTML = "";
+
+      list.forEach((player) => {
+        const total = getTotal(player);
+        const card = document.createElement("article");
+        card.className = "player-card";
+        card.dataset.id = player.id;
+
+        const barsHtml = statLabels
+          .map(({ key, label }) => {
+            const val = player.stats[key];
+            const pct = (val / 5) * 100;
+            return `
+              <div class="stat-row">
+                <span class="stat-label">${label}</span>
+                <div class="stat-track">
+                  <div class="stat-fill" data-target="${pct}"></div>
+                </div>
+                <span class="stat-val">${val}/5</span>
+              </div>
+            `;
+          })
+          .join("");
+
+        card.innerHTML = `
+          <div class="photo-stage">
+            <span class="jersey-badge">#${player.number}</span>
+            <span class="ovr-badge">OVR ${total}/30</span>
+            <img
+              src="${player.photo}"
+              alt="${player.name} volleyball profile"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+            />
+            <div class="photo-fallback" style="display:none;">
+              <div style="font-size:2rem; font-weight:900; color:var(--orange);">#${player.number}</div>
+              <div style="font-size:0.85rem; color:var(--muted);">Add <code>${player.photo}</code> or upload photo</div>
+            </div>
+            <button class="upload-photo-btn" type="button" data-upload="${player.id}">Upload Photo</button>
+          </div>
+          <div class="card-body">
+            <div class="player-top">
+              <div>
+                <h3 class="player-name">${player.name}</h3>
+                <div class="player-role">${player.position}</div>
+              </div>
+              <div class="player-meta">
+                <div>${player.year}</div>
+                <div>${player.height}</div>
+              </div>
+            </div>
+            <p style="font-size:0.84rem; color:var(--muted);">${player.roleNote}</p>
+            <div class="stats-list">${barsHtml}</div>
+            <div class="card-footer">
+              <button class="btn btn-ghost btn-sm" type="button" data-inspect="${player.id}">View Profile</button>
+              <button class="btn btn-ghost btn-sm" type="button" data-compare-a="${player.id}">Set as Player A</button>
+            </div>
+          </div>
+        `;
+
+        rosterGrid.appendChild(card);
+        observer.observe(card);
+      });
+
+      // Bind card buttons
+      rosterGrid.querySelectorAll("[data-upload]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          pendingUploadId = btn.getAttribute("data-upload");
+          photoFileInput.click();
+        });
+      });
+
+      rosterGrid.querySelectorAll("[data-inspect]").forEach((btn) => {
+        btn.addEventListener("click", () => openPlayerModal(btn.getAttribute("data-inspect")));
+      });
+
+      rosterGrid.querySelectorAll("[data-compare-a]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.getElementById("compareA").value = btn.getAttribute("data-compare-a");
+          renderComparator();
+          document.getElementById("compare").scrollIntoView({ behavior: "smooth" });
+        });
+      });
+    }
+
+    photoFileInput.addEventListener("change", (e) => {
+      const file = e.target.files?.[0];
+      if (!file || !pendingUploadId) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const targetPlayer = players.find((p) => p.id === pendingUploadId);
+        if (targetPlayer) {
+          targetPlayer.photo = reader.result;
+          renderRoster();
+        }
+        pendingUploadId = null;
+        photoFileInput.value = "";
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Filter & Sort events
+    document.querySelectorAll(".chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        document.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        activeFilter = chip.getAttribute("data-filter");
+        renderRoster();
+      });
+    });
+
+    document.getElementById("sortSelect").addEventListener("change", (e) => {
+      activeSort = e.target.value;
+      renderRoster();
+    });
+
+    document.getElementById("replayBarsBtn").addEventListener("click", animateBars);
+
+    // Modal logic
+    const detailModal = document.getElementById("detailModal");
+    const modalContent = document.getElementById("modalContent");
+
+    function openPlayerModal(id) {
+      const p = players.find((item) => item.id === id);
+      if (!p) return;
+      modalContent.innerHTML = `
+        <div style="color:var(--orange); font-weight:800; font-size:0.85rem;">JERSEY #${p.number} · ${p.position.toUpperCase()}</div>
+        <h3 style="font-size:1.5rem; margin:0.2rem 0 0.5rem;">${p.name}</h3>
+        <p style="color:var(--muted); font-size:0.9rem; margin-bottom:1rem;">${p.year} · Height: ${p.height} · Total Rating: <strong>${getTotal(p)}/30</strong></p>
+        <blockquote style="border-left:3px solid var(--orange); padding-left:0.85rem; color:var(--white); font-style:italic; margin-bottom:1rem;">
+          "${p.quote}"
+        </blockquote>
+        <p style="color:var(--muted); font-size:0.9rem;">${p.roleNote}</p>
+      `;
+      detailModal.classList.add("open");
+    }
+
+    document.getElementById("closeModalBtn").addEventListener("click", () => detailModal.classList.remove("open"));
+    detailModal.addEventListener("click", (e) => {
+      if (e.target === detailModal) detailModal.classList.remove("open");
+    });
+
+    // Comparator logic
+    const compareA = document.getElementById("compareA");
+    const compareB = document.getElementById("compareB");
+    const compareTable = document.getElementById("compareTable");
+
+    function initComparatorSelects() {
+      players.forEach((p, idx) => {
+        const optA = new Option(`#${p.number} ${p.name} (${p.position})`, p.id);
+        const optB = new Option(`#${p.number} ${p.name} (${p.position})`, p.id);
+        compareA.add(optA);
+        compareB.add(optB);
+        if (idx === 0) compareA.value = p.id;
+        if (idx === 5) compareB.value = p.id;
+      });
+      compareA.addEventListener("change", renderComparator);
+      compareB.addEventListener("change", renderComparator);
+      renderComparator();
+    }
+
+    function renderComparator() {
+      const pA = players.find((p) => p.id === compareA.value) || players[0];
+      const pB = players.find((p) => p.id === compareB.value) || players[1];
+
+      const rowsHtml = statLabels
+        .map(({ key, label }) => {
+          const vA = pA.stats[key];
+          const vB = pB.stats[key];
+          const badgeA = vA > vB ? `<span class="leader-pill">Higher</span>` : "";
+          const badgeB = vB > vA ? `<span class="leader-pill">Higher</span>` : "";
+          return `
+            <tr>
+              <td><strong>${label}</strong></td>
+              <td>${vA} / 5 ${badgeA}</td>
+              <td>${vB} / 5 ${badgeB}</td>
+            </tr>
+          `;
+        })
+        .join("");
+
+      const totA = getTotal(pA);
+      const totB = getTotal(pB);
+
+      compareTable.innerHTML = `
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>${pA.name} (#${pA.number})</th>
+            <th>${pB.name} (#${pB.number})</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rowsHtml}
+          <tr>
+            <td><strong>Total Score</strong></td>
+            <td><strong>${totA} / 30</strong> ${totA > totB ? `<span class="leader-pill">Edge</span>` : ""}</td>
+            <td><strong>${totB} / 30</strong> ${totB > totA ? `<span class="leader-pill">Edge</span>` : ""}</td>
+          </tr>
+        </tbody>
+      `;
+    }
+
+    // Questionnaire logic (5 questions: playstyle match + trivia)
+    const quizData = [
+      {
+        id: "q1",
+        prompt: "1. What is written on Karasuno High's iconic black banner?",
+        options: [
+          { label: "FLY (飛べ)", correct: true, match: "hinata" },
+          { label: "CONNECT (繋げ)", correct: false, match: "nishinoya" },
+          { label: "RULE THE COURT", correct: false, match: "kageyama" },
+          { label: "IRON WALL", correct: false, match: "tsukishima" }
+        ]
+      },
+      {
+        id: "q2",
+        prompt: "2. Which role do you naturally gravitate toward on a team?",
+        options: [
+          { label: "Setting up plays & reading the whole court", correct: true, match: "kageyama" },
+          { label: "Diving for impossible saves & hype", correct: true, match: "nishinoya" },
+          { label: "Leaping high & running non-stop", correct: true, match: "hinata" },
+          { label: "Smart blocking & calm analysis", correct: true, match: "tsukishima" }
+        ]
+      },
+      {
+        id: "q3",
+        prompt: "3. Which Karasuno player wears jersey #1 and serves as team captain?",
+        options: [
+          { label: "Koshi Sugawara", correct: false, match: "sugawara" },
+          { label: "Daichi Sawamura", correct: true, match: "daichi" },
+          { label: "Asahi Azumane", correct: false, match: "asahi" },
+          { label: "Ryunosuke Tanaka", correct: false, match: "tanaka" }
+        ]
+      },
+      {
+        id: "q4",
+        prompt: "4. How do you handle high-pressure match points?",
+        options: [
+          { label: "Stay composed and guide teammates", correct: true, match: "daichi" },
+          { label: "Swing harder and trust the team", correct: true, match: "asahi" },
+          { label: "Fire up the crowd with bold energy", correct: true, match: "tanaka" },
+          { label: "Stay cool and stick to the plan", correct: true, match: "sugawara" }
+        ]
+      },
+      {
+        id: "q5",
+        prompt: "5. Which stat is maximized (5/5) for Tobio Kageyama in standard Karasuno stats?",
+        options: [
+          { label: "Jumping only", correct: false, match: "hinata" },
+          { label: "Game Sense & Technique", correct: true, match: "kageyama" },
+          { label: "Power only", correct: false, match: "asahi" },
+          { label: "Speed only", correct: false, match: "nishinoya" }
+        ]
+      }
+    ];
+
+    const selectedAnswers = {};
+    const quizQuestionsEl = document.getElementById("quizQuestions");
+    const quizProgressEl = document.getElementById("quizProgress");
+    const quizResultEl = document.getElementById("quizResult");
+
+    function renderQuiz() {
+      quizQuestionsEl.innerHTML = "";
+      quizData.forEach((q) => {
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        const optsHtml = q.options
+          .map((opt, idx) => {
+            const isSelected = selectedAnswers[q.id] === idx;
+            return `
+              <button
+                type="button"
+                class="option-btn ${isSelected ? "selected" : ""}"
+                data-qid="${q.id}"
+                data-oidx="${idx}"
+              >${opt.label}</button>
+            `;
+          })
+          .join("");
+
+        card.innerHTML = `
+          <div class="question-prompt">${q.prompt}</div>
+          <div class="options-grid">${optsHtml}</div>
+        `;
+        quizQuestionsEl.appendChild(card);
+      });
+
+      quizQuestionsEl.querySelectorAll(".option-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const qid = btn.getAttribute("data-qid");
+          const oidx = Number(btn.getAttribute("data-oidx"));
+          selectedAnswers[qid] = oidx;
+          renderQuiz();
+          updateQuizProgress();
+        });
+      });
+
+      updateQuizProgress();
+    }
+
+    function updateQuizProgress() {
+      const answeredCount = Object.keys(selectedAnswers).length;
+      const pct = (answeredCount / quizData.length) * 100;
+      quizProgressEl.style.width = pct + "%";
+    }
+
+    document.getElementById("submitQuizBtn").addEventListener("click", () => {
+      const answeredCount = Object.keys(selectedAnswers).length;
+      if (answeredCount < quizData.length) {
+        quizResultEl.classList.add("visible");
+        quizResultEl.innerHTML = `
+          <strong style="color:var(--orange);">Please answer all ${quizData.length} questions first</strong>
+          <p style="color:var(--muted); margin-top:0.35rem;">You have answered ${answeredCount} of ${quizData.length} questions.</p>
+        `;
+        return;
+      }
+
+      let triviaScore = 0;
+      const matchCounts = {};
+
+      quizData.forEach((q) => {
+        const chosen = q.options[selectedAnswers[q.id]];
+        if (chosen.correct) triviaScore += 1;
+        matchCounts[chosen.match] = (matchCounts[chosen.match] || 0) + 1;
+      });
+
+      const topMatchId = Object.entries(matchCounts).sort((a, b) => b[1] - a[1])[0][0];
+      const matchedPlayer = players.find((p) => p.id === topMatchId) || players[0];
+
+      quizResultEl.classList.add("visible");
+      quizResultEl.innerHTML = `
+        <div style="font-size:0.82rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--orange); font-weight:800;">
+          Questionnaire Complete · Trivia Score: ${triviaScore} / ${quizData.length}
+        </div>
+        <h3 style="font-size:1.4rem; margin:0.35rem 0;">Your Playstyle Match: ${matchedPlayer.name} (#${matchedPlayer.number})</h3>
+        <p style="color:var(--muted); margin-bottom:0.75rem;">
+          <strong>${matchedPlayer.position}</strong> — ${matchedPlayer.roleNote} (Total Rating: ${getTotal(matchedPlayer)}/30).
+        </p>
+        <blockquote style="border-left:3px solid var(--orange); padding-left:0.8rem; font-style:italic;">
+          "${matchedPlayer.quote}"
+        </blockquote>
+      `;
+    });
+
+    document.getElementById("resetQuizBtn").addEventListener("click", () => {
+      Object.keys(selectedAnswers).forEach((k) => delete selectedAnswers[k]);
+      quizResultEl.classList.remove("visible");
+      quizResultEl.innerHTML = "";
+      renderQuiz();
+    });
+
+    // Initialize app
+    renderRoster();
+    initComparatorSelects();
+    renderQuiz();
+  </script>
+</body>
+</html>
